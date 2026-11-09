@@ -26,12 +26,31 @@ func _process(delta: float) -> void:
 func _ready() -> void:
 	default_attack(defaultAttackPattern, 1)
 	
-func default_attack(attack_pattern: Array[String], attack_interval: float):
+func default_attack(attack_pattern: Array[String], attack_time: float):
 	
 	timer.start()
 	attacking = true;
 	
 	for direction in attack_pattern:
 		current_attack = direction
+		opposite_direction = get_opposite_direction(direction)
 		
+		animations.play(direction)
+		print("required direction to parry:" + opposite_direction)
+		
+		get_tree().create_timer(attack_time).timeout
+		
+	attacking = false;
 	
+func get_opposite_direction(direction: String) -> String:
+	
+	if direction == "up":
+		return "down";
+	elif direction == "down":
+		return "up";
+	elif direction == "left":
+		return "right";
+	elif direction == "right":
+		return "left";
+	else:
+		return "error"
