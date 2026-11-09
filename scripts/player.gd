@@ -2,23 +2,43 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -600.0
-@export var health := 100;
-@export var attack := 10;
+@export var health_points := 100;
+@export var attack_damage := 10;
 @onready var animations := $PlayerAnimations
+@onready var enemy := get_parent().get_node("TestEnemy")
+var current_attack: String = "";
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		velocity += get_gravity() * delta;
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = JUMP_VELOCITY;
 
-	var direction := Input.get_axis("backward", "forward")
+	var direction := Input.get_axis("backward", "forward");
 	if direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * SPEED;
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, SPEED);
 
-	move_and_slide()
+	move_and_slide();
+
+func set_current_attack(direction: String):
+	current_attack = direction
+	
+
+func attack_animations():
+	if current_attack == "up":
+		animations.play("up");
+	if current_attack == "down":
+		animations.play("down");
+	if current_attack == "left":
+		animations.play("left");
+	if current_attack == "right":
+		animations.play("right");
+	
+func parry():
+	if current_attack == enemy.opposite_direction:
+		enemy.health - attack_damage;

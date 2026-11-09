@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://j8vqatrj4bbf"]
+
+[ext_resource type="Texture2D" uid="uid://ccxasdjcuotb2" path="res://icon.svg" id="1_h17bh"]
+[ext_resource type="Script" uid="uid://dlx0ealj4wyv2" path="res://scenes/test_enemy.gd" id="1_mkyue"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h17bh"]
+size = Vector2(128, 127)
+
+[node name="TestEnemy" type="CharacterBody2D"]
+script = ExtResource("1_mkyue")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(506, 356)
+texture = ExtResource("1_h17bh")
+
+[node name="Collisions" type="CollisionShape2D" parent="."]
+position = Vector2(507, 356.5)
+shape = SubResource("RectangleShape2D_h17bh")
+
+[node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 4.0

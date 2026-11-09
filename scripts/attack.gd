@@ -1,23 +1,61 @@
 extends Node2D
 
-var _click_pos: Array = [];
+var line_position: PackedVector2Array = [] 
+var currently_drawing: bool = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+signal drawing_done(direction: String)
+
+func _unhandled_input(event: InputEvent) -> void:
 	
-	pass # Replace with function body.
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+		
+			if event.pressed:
+				currently_drawing = true;
+				line_position.clear();
+				line_position.append(get_global_mouse_position())
+				queue_redraw();
+			
+			else:
+				if currently_drawing:
+					line_position.append(get_global_mouse_position());
+					currently_drawing = false;
+					
+					var direction = attack_direction();
+					
+					print("attack: ", direction)
+					
+					drawing_done.emit(direction)
+					queue_redraw()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func _input(event: InputEvent) -> void:
-	if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		return
-	
-	_click_pos.append(event.position);
+	elif event is InputEventMouseMotion and currently_drawing:
+		line_position.append(get_global_mouse_position());
+		queue_redraw();
 
 func _draw() -> void:
-	for point in _click_pos:
-		draw_circle(point, 10, Color.WHITE)
+	if line_position.size() >= 2:
+		draw_polyline(line_position, Color.WHITE, 3.0, true);
+
+func attack_direction() -> String:
+
+	if line_position.size() < 2:
+		return "line too short";
+
+	var movement = line_position[-1] - line_position[0]
+
+	if movement.length() < 30:
+		return "invalid direction";
+
+	if abs(movement.x) > abs(movement.y):
+	
+		if movement.x > 0:
+			return "right";
+		else:
+			return "left";
+
+	else:
+
+		if movement.y > 0:
+			return "down";
+		else:
+			return "up";
