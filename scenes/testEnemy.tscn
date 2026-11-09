@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbhvnufxf4nst"]
+
+[ext_resource type="PackedScene" uid="uid://j8vqatrj4bbf" path="res://scenes/defaultEnemy.tscn" id="1_vj8yi"]
+[ext_resource type="Script" uid="uid://kv1etwyy4d11" path="res://scripts/test_enemy.gd" id="2_hvovt"]
+
+[node name="defaultEnemy" instance=ExtResource("1_vj8yi")]
+script = ExtResource("2_hvovt")
+
+[node name="AttackCooldown" parent="." index="2"]
+wait_time = 4.586

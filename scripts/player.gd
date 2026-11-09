@@ -5,6 +5,7 @@ const JUMP_VELOCITY = -600.0
 @export var health_points := 100;
 @export var attack_damage := 10;
 @onready var animations := $PlayerAnimations
+@onready var slash := $Slashes
 @onready var enemy := get_parent().get_node("TestEnemy")
 var current_attack: String = "";
 
@@ -27,18 +28,20 @@ func _physics_process(delta: float) -> void:
 
 func set_current_attack(direction: String):
 	current_attack = direction
-	
+	parry()
+	attack_animations()
 
 func attack_animations():
 	if current_attack == "up":
-		animations.play("up");
+		slash.play("slash_up");
 	if current_attack == "down":
-		animations.play("down");
+		slash.play("slash_down");
 	if current_attack == "left":
-		animations.play("left");
+		slash.play("slash_left");
 	if current_attack == "right":
-		animations.play("right");
+		slash.play("slash_right");
 	
 func parry():
 	if current_attack == enemy.opposite_direction:
-		enemy.health - attack_damage;
+		enemy.health -= attack_damage;
+		print("successful parry!")
