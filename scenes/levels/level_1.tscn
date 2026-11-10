@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgtyu7lbpu1or"]
+
+[ext_resource type="PackedScene" uid="uid://bdiypmt5k4jku" path="res://scenes/player/player.tscn" id="1_nsrm0"]
+[ext_resource type="Script" uid="uid://ddv1ratp3ospo" path="res://scenes/player/attack.gd" id="2_x42e6"]
+[ext_resource type="Texture2D" uid="uid://p0km7oktod0w" path="res://sprites/background/mainspritesheet.png" id="4_x42e6"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6761a"]
+texture = ExtResource("4_x42e6")
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+14:0/0 = 0
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:1/0 = 0
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+6:1/0 = 0
+6:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_sk5k4"]
+physics_layer_0/collision_layer = 2
+sources/0 = SubResource("TileSetAtlasSource_6761a")
+
+[node name="level_1" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -205.0
+offset_top = -115.0
+offset_right = 208.0
+offset_bottom = 120.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_group_ = true
+
+[node name="Attack" type="Node2D" parent="."]
+script = ExtResource("2_x42e6")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="Player" parent="." instance=ExtResource("1_nsrm0")]
+position = Vector2(-22, 36)
+collision_mask = 2
+
+[node name="Platforms" type="TileMap" parent="."]
+texture_filter = 1
+tile_set = SubResource("TileSet_sk5k4")
+format = 2
+layer_0/name = "Ground"
+layer_0/z_index = 1
+layer_0/tile_data = PackedInt32Array(196602, 0, 1, 196603, 65536, 1, 196604, 65536, 1, 196605, 65536, 1, 196606, 131072, 1, -2, 262144, 1, -1, 327680, 1, -65536, 327680, 1, -65535, 393216, 1, 65534, 262144, 2, 1, 393216, 2, 65535, 327680, 2, 0, 327680, 2, 458740, 0, 1, 458741, 65536, 1, 458742, 65536, 1, 458743, 65536, 1, 458744, 65536, 1, 458745, 65536, 1, 458746, 65536, 1, 458747, 65536, 1, 458748, 65536, 1, 458749, 65536, 1, 458750, 65536, 1, 458751, 65536, 1, 393216, 65536, 1, 393217, 65536, 1, 393218, 65536, 1, 393219, 65536, 1, 393220, 65536, 1, 393221, 65536, 1, 393222, 65536, 1, 393223, 65536, 1, 393224, 65536, 1, 393225, 65536, 1, 393226, 65536, 1, 393227, 131072, 1)
+layer_1/name = "BackgroundDecor"
+layer_1/tile_data = PackedInt32Array(65534, 720896, 1, -2, 720896, 0, 1, 917504, 0, 65537, 786432, 0, 131073, 786432, 1, -131078, 851968, 0, -65542, 851968, 1, -196614, 917504, 0, -262150, 917504, 0, -327686, 917504, 0, -393222, 917504, 0)
+layer_2/name = "Decor"
+layer_2/z_index = 2
+layer_2/tile_data = PackedInt32Array(131066, 524288, 0, 131070, 655360, 0, -131071, 589824, 0, -65537, 524288, 0, -65535, 458752, 0, 196602, 458752, 0, 196605, 720896, 1, 131069, 589824, 0)
