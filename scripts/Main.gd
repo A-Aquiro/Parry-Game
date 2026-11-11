@@ -20,12 +20,12 @@ func _ready() -> void:
 	change_room(starting_room, starting_spawn_path, false)
 
 func change_room(room: PackedScene, spawn_path: NodePath, animate_camera:=true):
-	if is_changing_room || room_container == null:
+	if is_changing_room || room == null:
 		return
 	
 	is_changing_room = true;
 	
-	var new_room = room_container.instanciate()
+	var new_room = room.instantiate();
 	
 	room_container.add_child(new_room)
 	

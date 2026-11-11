@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var camera_bounds := Rect2(0, 0, 1280, 720)
+@export var camera_bounds_shape: CollisionShape2D = $CameraBounds/CollisionShape2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -12,8 +12,9 @@ func _process(delta: float) -> void:
 	pass
 
 func get_camera_bounds() -> Rect2:
-	var top_left = to_global(camera_bounds.position)
-	var bottom_right = to_global(camera_bounds.position + camera_bounds.size)
+	var shape := camera_bounds_shape.shape as RectangleShape2D
+	var center := camera_bounds_shape.global_position
+	var size := shape.size
 	
-	return Rect2(top_left, bottom_right - top_left)
+	return Rect2(center - size / 2.0, size)
 	

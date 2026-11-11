@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://dgtyu7lbpu1or"]
+[gd_scene load_steps=9 format=4 uid="uid://dgtyu7lbpu1or"]
 
 [ext_resource type="Script" uid="uid://dbrcbywyfcnn7" path="res://scenes/levels/room.gd" id="1_6iamk"]
+[ext_resource type="Texture2D" uid="uid://cyvxjpisskgxd" path="res://sprites/light.png" id="3_nsrm0"]
+[ext_resource type="Script" uid="uid://4msgah6qqk1e" path="res://scripts/Doorway.gd" id="4_6761a"]
 [ext_resource type="Texture2D" uid="uid://p0km7oktod0w" path="res://sprites/background/mainspritesheet.png" id="4_x42e6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6761a"]
@@ -27,38 +29,55 @@ texture = ExtResource("4_x42e6")
 6:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 11:1/0 = 0
 12:1/0 = 0
+12:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 13:1/0 = 0
+13:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 4:2/0 = 0
 5:2/0 = 0
 6:2/0 = 0
 1:3/0 = 0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:3/0 = 0
+0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:3/0 = 0
+2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:4/0 = 0
+2:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:4/0 = 0
+1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:4/0 = 0
+0:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:5/0 = 0
+0:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:5/0 = 0
+1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:5/0 = 0
+2:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 4:3/0 = 0
+4:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 4:4/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_sk5k4"]
 physics_layer_0/collision_layer = 2
 sources/0 = SubResource("TileSetAtlasSource_6761a")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nsrm0"]
+size = Vector2(31, 49)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x42e6"]
+size = Vector2(513, 208)
+
 [node name="level_1" type="Node2D"]
 position = Vector2(-382, -206)
 script = ExtResource("1_6iamk")
+camera_bounds = Rect2(0, 0, 10, 10)
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-offset_left = -205.0
-offset_top = -115.0
-offset_right = 208.0
-offset_bottom = 120.0
-color = Color(0, 0, 0, 1)
-metadata/_edit_group_ = true
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = 369.0
+offset_top = 212.0
+offset_right = 911.0
+offset_bottom = 467.0
+color = Color(0.0383972, 0.0383972, 0.0383971, 1)
 
 [node name="Platforms" type="TileMap" parent="."]
 texture_filter = 1
@@ -85,3 +104,39 @@ tile_map_data = PackedByteArray("AAD6/wEAAAAIAAAAAAD+/wEAAAAKAAAAAAABAP7/AAAJAAA
 tile_set = SubResource("TileSet_sk5k4")
 
 [node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(437, 392)
+
+[node name="Lights" type="Node2D" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="Lights"]
+position = Vector2(598, 353)
+scale = Vector2(0.0390625, 0.0390625)
+color = Color(0.35359, 0.532747, 1, 1)
+texture = ExtResource("3_nsrm0")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Lights"]
+position = Vector2(486, 290)
+scale = Vector2(0.0390625, 0.0390625)
+color = Color(0.35359, 0.532747, 1, 1)
+texture = ExtResource("3_nsrm0")
+
+[node name="PointLight2D3" type="PointLight2D" parent="Lights"]
+position = Vector2(823, 305)
+scale = Vector2(0.0390625, 0.0390625)
+color = Color(0.35359, 0.532747, 1, 1)
+texture = ExtResource("3_nsrm0")
+
+[node name="ToRoomB" type="Area2D" parent="."]
+position = Vector2(872, 394)
+script = ExtResource("4_6761a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ToRoomB"]
+position = Vector2(6.5, -7.5)
+shape = SubResource("RectangleShape2D_nsrm0")
+
+[node name="CameraBounds" type="Area2D" parent="."]
+position = Vector2(383, 235)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CameraBounds"]
+position = Vector2(256.5, 104)
+shape = SubResource("RectangleShape2D_x42e6")
