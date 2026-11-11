@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bdiypmt5k4jku"]
+[gd_scene load_steps=39 format=3 uid="uid://bdiypmt5k4jku"]
 
 [ext_resource type="Texture2D" uid="uid://ccxasdjcuotb2" path="res://icon.svg" id="1_g2els"]
 [ext_resource type="Script" uid="uid://dec00e8c2g4a7" path="res://scenes/player/player.gd" id="2_g2els"]
@@ -34,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://w1ik4xckr766" path="res://sprites/slashes/slashup6.png" id="32_ua5cf"]
 [ext_resource type="Texture2D" uid="uid://cp3ipwl7uav7e" path="res://sprites/slashes/slashup7.png" id="33_51ujp"]
 [ext_resource type="Texture2D" uid="uid://3prvc5lunke8" path="res://sprites/slashes/slashup8.png" id="34_tk41t"]
+[ext_resource type="Script" uid="uid://ddv1ratp3ospo" path="res://scenes/player/attack.gd" id="35_bbmj2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g2els"]
 animations = [{
@@ -188,6 +189,11 @@ shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="Slashes" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(-4, 3)
+position = Vector2(41, 2)
+scale = Vector2(0.328125, 0.328125)
 sprite_frames = SubResource("SpriteFrames_fuw3a")
-animation = &"none"
+animation = &"slash_down"
+
+[node name="Attack" type="Node2D" parent="."]
+position = Vector2(-16, -9)
+script = ExtResource("35_bbmj2")

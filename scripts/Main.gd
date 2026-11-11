@@ -15,10 +15,8 @@ func _ready() -> void:
 	add_to_group("rooms")
 	player.add_to_group("player")
 	
-	camera.call("setup", player)
-	
 	change_room(starting_room, starting_spawn_path, false)
-
+	
 func change_room(room: PackedScene, spawn_path: NodePath, animate_camera:=true):
 	if is_changing_room || room == null:
 		return
@@ -41,9 +39,7 @@ func change_room(room: PackedScene, spawn_path: NodePath, animate_camera:=true):
 	
 	var old_room = current_room
 	current_room = new_room
-	
-	camera.call("set_room", new_room, animate_camera)
-	
+		
 	if old_room != null:
 		old_room.queue_free()
 	

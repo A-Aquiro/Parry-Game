@@ -12,12 +12,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			if event.pressed:
 				currently_drawing = true;
 				line_position.clear();
-				line_position.append(get_global_mouse_position())
+				line_position.append(get_local_mouse_position())
 				queue_redraw();
 			
 			else:
 				if currently_drawing:
-					line_position.append(get_global_mouse_position());
+					line_position.append(get_local_mouse_position());
 					currently_drawing = false;
 					
 					var direction = attack_direction();
@@ -28,7 +28,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					queue_redraw()
 
 	elif event is InputEventMouseMotion and currently_drawing:
-		line_position.append(get_global_mouse_position());
+		line_position.append(get_local_mouse_position());
 		queue_redraw();
 
 func _draw() -> void:
