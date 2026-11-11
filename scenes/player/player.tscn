@@ -47,7 +47,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
-size = Vector2(12, 12)
+size = Vector2(31.5, 28.5)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fuw3a"]
 animations = [{
@@ -178,16 +178,16 @@ position = Vector2(124, 66)
 script = ExtResource("2_g2els")
 
 [node name="PlayerAnimations" type="AnimatedSprite2D" parent="."]
-position = Vector2(-118, -59)
-scale = Vector2(0.0781253, 0.0859378)
+position = Vector2(0.999985, 1)
+scale = Vector2(0.21875, 0.214844)
 sprite_frames = SubResource("SpriteFrames_g2els")
 
 [node name="Collisions" type="CollisionShape2D" parent="."]
-position = Vector2(-118, -59)
+position = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="Slashes" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(51, -32)
+position = Vector2(-4, 3)
 sprite_frames = SubResource("SpriteFrames_fuw3a")
 animation = &"none"
