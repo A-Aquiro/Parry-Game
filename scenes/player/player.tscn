@@ -211,7 +211,12 @@ size = Vector2(21, 29)
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(124, 66)
+collision_layer = 2
 script = ExtResource("2_g2els")
+health_points = null
+attack_damage = null
+attack_duration = null
+attack_cooldown = null
 
 [node name="PlayerAnimations" type="AnimatedSprite2D" parent="."]
 position = Vector2(0.999985, 1)
@@ -225,7 +230,7 @@ shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="Slashes" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(41, 2)
+position = Vector2(28, 4)
 scale = Vector2(0.328125, 0.328125)
 sprite_frames = SubResource("SpriteFrames_fuw3a")
 animation = &"slash_down"
@@ -237,6 +242,6 @@ script = ExtResource("35_bbmj2")
 [node name="Sword" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
-position = Vector2(33.5, 1.5)
+position = Vector2(29, 1)
 shape = SubResource("RectangleShape2D_bbmj2")
 debug_color = Color(0.638972, 0, 0.157639, 0.42)

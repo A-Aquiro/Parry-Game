@@ -218,5 +218,13 @@ position = Vector2(6.5, -7.5)
 shape = SubResource("RectangleShape2D_nsrm0")
 
 [node name="testEnemy" parent="." instance=ExtResource("4_sk5k4")]
-position = Vector2(422, 334)
+position = Vector2(419, 295)
 scale = Vector2(0.2, 0.2)
+health = null
+attack_damage = null
+attack_pattern = null
+swing_duration = null
+recovery_duration = null
+parry_feedback_duration = null
+reset_delay = null
+stun_duration = null
