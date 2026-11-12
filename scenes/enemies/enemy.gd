@@ -5,6 +5,7 @@ enum State{ ATTACKING, PARRIED, RESETTING, STUNNED, DEAD}
 
 const SPEED = 300.0
 
+@export var enemy_name := "goblin"
 @export var health := 10;
 @export var attack_damage := 10;
 var attack_pattern: Array[String] = ["up","down","left"]
@@ -18,7 +19,7 @@ var attack_pattern: Array[String] = ["up","down","left"]
 @onready var animations := $EnemyAnimations
 @onready var enemy_sword: Area2D = $Sword
 @onready var timer := $AttackCooldown
-
+@onready var player = get_tree().get_first_node_in_group("player")
 
 var state := State.ATTACKING
 
@@ -27,11 +28,14 @@ var current_attack := ""
 var opposite_direction := ""
 
 var sequence_id := 0
-var swing_hit := false
+var swing_hit_player := false
+var sword_scale: Vector2
 
 func _ready() -> void:
+	sword_scale = enemy_sword.scale
 	enemy_sword.monitoring = false
 	enemy_sword.add_to_group("enemy_swords")
+	add_to_group("enemies") 
 	
 	enemy_sword.body_entered.connect(_on_sword_body_entered)
 	
@@ -41,8 +45,18 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta;
+		
+	if player == null:
+		player = get_tree().get_first_node_in_group("player")
 	
+	if player != null: 
+		var should_flip = player.global_position.x < global_position.x;
+		
+		if animations.flip_h != should_flip:
+			animations.flip_h = should_flip
+			update_sword_position()
 	move_and_slide();
+	
 
 func start_attack_sequence():
 	if state == State.DEAD:
@@ -61,7 +75,7 @@ func start_attack_sequence():
 func run_attack_loop(id: int):
 	while id == sequence_id and state == State.ATTACKING:
 		
-		swing_hit = false
+		swing_hit_player = false
 		
 		enemy_sword.monitoring = true
 		animations.play(current_attack)
@@ -72,7 +86,7 @@ func run_attack_loop(id: int):
 			return
 		
 		enemy_sword.monitoring = false
-		animations.play("default")
+		animations.play("idle")
 		
 		await get_tree().create_timer(recovery_duration).timeout
 		
@@ -149,28 +163,23 @@ func enter_stunned():
 	
 func _on_sword_body_entered(body: Node2D):
 	
-	if state != State.ATTACKING || swing_hit:
+	if state != State.ATTACKING || swing_hit_player:
 		return
 	
-	if body.is_in_group("players"):
-		swing_hit = true
+	if body.is_in_group("player"):
+		swing_hit_player = true
 		reset_after_hit(body)
 		
 
 func receive_player_attack(amount: int):
-	if state != State.STUNNED:
-		return
-	
-	take_damage(amount)
-	
-func take_damage(amount: int):
-	if state == State.DEAD:
+	if state != State.STUNNED or state == State.DEAD:
 		return
 	
 	health -= amount
 	
 	if health <= 0:
 		die()
+		print(enemy_name, "died")
 
 func die():
 	queue_free()
@@ -187,3 +196,11 @@ func get_opposite_direction(direction: String) -> String:
 		return "left";
 	else:
 		return "error"
+
+func update_sword_position():
+	
+	if animations.flip_h:
+		enemy_sword.scale.x = -abs(sword_scale.x)
+	else:
+		enemy_sword.scale.x = abs(sword_scale.x)	
+	

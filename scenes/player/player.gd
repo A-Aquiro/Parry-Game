@@ -16,10 +16,12 @@ enum player_states {MOVE, DEAD}
 var knockback_time := 0.0
 var attacking := false
 var attack_animation_id := 0
+var facing_direction := Vector2.RIGHT
+var sword_offset: Vector2
 
 func _ready():
-	add_to_group("players")
-	
+	sword_offset = player_sword.position
+	add_to_group("player")
 	player_sword.monitoring = true
 	
 func _physics_process(delta: float) -> void:
@@ -35,27 +37,38 @@ func _physics_process(delta: float) -> void:
 	else:
 		var direction := Input.get_axis("backward","forward")
 		
+		if attacking and direction != 0:
+			attacking = false
+			attack_animation_id += 1
+		
 		if direction:
 			velocity.x = direction * SPEED
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			
 		if direction != 0:
+			if direction > 0:
+				facing_direction = Vector2.RIGHT 
+			else:
+				facing_direction = Vector2.LEFT
+				
 			animations.flip_h = direction < 0;
+			update_sword_position()
 	
 	if !attacking:
 		update_animations()
 	move_and_slide();
+	
 
 func set_current_attack(direction: String) -> void:
+	if current_state == player_states.DEAD:
+		return
+	
 	attack_animation_id += 1
 	var current_id = attack_animation_id
 	
 	attacking = true
 	animations.play("attack_" + direction)
-	
-	if current_state == player_states.DEAD:
-		return
 
 	var directions := {
 		"up": Vector2.UP,
@@ -66,28 +79,28 @@ func set_current_attack(direction: String) -> void:
 
 	if not directions.has(direction):
 		return
-
-	player_sword.position = directions[direction] * 35.0
-
+	
+	update_sword_position()
+	
 	await get_tree().physics_frame
-
-
+	
+	
 	for area in player_sword.get_overlapping_areas():
-
-
+		
 		if area.is_in_group("enemy_swords"):
-
 			var enemy = area.get_parent()
-
-
-			if enemy.has_method("receive_parry"):
-				enemy.receive_parry(direction, self)
-
-			return
+			enemy.receive_parry(direction, self)
+			break
+			
+	for body in player_sword.get_overlapping_bodies():
+		if body.is_in_group("enemies"):
+			body.receive_player_attack(attack_damage)
+	
 	await animations.animation_finished
-
+	
 	if current_id == attack_animation_id:
 		attacking = false
+		update_sword_position()
 		update_animations()
 	
 func take_damage(amount: int):
@@ -129,3 +142,8 @@ func update_animations():
 	else:
 		return
 	
+func update_sword_position():
+	if facing_direction == Vector2.RIGHT:
+		player_sword.position = sword_offset
+	else:
+		player_sword.position = Vector2(-sword_offset.x, sword_offset.y)

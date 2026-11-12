@@ -98,7 +98,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m2u5k")
 }],
-"loop": true,
+"loop": false,
 "name": &"down",
 "speed": 5.0
 }, {
@@ -144,7 +144,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u7ilj")
 }],
-"loop": true,
+"loop": false,
 "name": &"left",
 "speed": 5.0
 }, {
@@ -167,7 +167,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u7ilj")
 }],
-"loop": true,
+"loop": false,
 "name": &"right",
 "speed": 5.0
 }, {
@@ -190,7 +190,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m2u5k")
 }],
-"loop": true,
+"loop": false,
 "name": &"up",
 "speed": 5.0
 }]
@@ -203,34 +203,29 @@ size = Vector2(81, 140.5)
 
 [node name="testEnemy" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 3
 script = ExtResource("1_fgult")
 
 [node name="EnemyAnimations" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(383, 321)
+position = Vector2(-19, 2.00003)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_wbk5p")
-animation = &"up"
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(400, 317.75)
+position = Vector2(-2, -1.25)
 shape = SubResource("RectangleShape2D_fgult")
 
 [node name="AttackCooldown" type="Timer" parent="."]
 wait_time = 3.0
 
 [node name="Sword" type="Area2D" parent="."]
-monitoring = false
+position = Vector2(-1, -1)
+collision_layer = 16
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
-position = Vector2(285, 316)
+position = Vector2(110, 0)
 shape = SubResource("RectangleShape2D_0slic")
 debug_color = Color(1, 0, 0.184314, 0.419608)
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = 248.0
-offset_top = 246.0
-offset_right = 326.0
-offset_bottom = 389.0
-color = Color(0.894118, 0.145098, 0, 0.231373)
