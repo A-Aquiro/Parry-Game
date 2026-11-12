@@ -2,6 +2,7 @@ extends Node2D
 
 var line_position: PackedVector2Array = [] 
 var currently_drawing: bool = false
+@onready var player := $".."
 
 signal drawing_done(direction: String)
 
@@ -22,9 +23,14 @@ func _unhandled_input(event: InputEvent) -> void:
 					
 					var direction = attack_direction();
 					
+					if direction == "invalid":
+						print("invalid attack");
+						queue_redraw()
+						return
+					
 					print("attack: ", direction)
 					
-					drawing_done.emit(direction)
+					player.set_current_attack(direction)
 					queue_redraw()
 
 	elif event is InputEventMouseMotion and currently_drawing:
@@ -38,12 +44,12 @@ func _draw() -> void:
 func attack_direction() -> String:
 
 	if line_position.size() < 2:
-		return "line too short";
+		return "invalid";
 
 	var movement = line_position[-1] - line_position[0]
 
 	if movement.length() < 30:
-		return "invalid direction";
+		return "invalid";
 
 	if abs(movement.x) > abs(movement.y):
 	
