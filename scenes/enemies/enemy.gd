@@ -5,18 +5,18 @@ enum State{ ATTACKING, PARRIED, RESETTING, STUNNED, DEAD}
 
 const SPEED = 300.0
 
-@export var health := 100;
+@export var health := 10;
 @export var attack_damage := 10;
 var attack_pattern: Array[String] = ["up","down","left"]
 
-@export var swing_duration := 0.5
-@export var recovery_duration := 0.3
+@export var swing_duration := 2
+@export var recovery_duration := 1
 @export var parry_feedback_duration := 0.4
 @export var reset_delay := 0.5
 @export var stun_duration := 3.0
 
 @onready var animations := $EnemyAnimations
-@onready var enemy_sword: Area2D = $EnemySword
+@onready var enemy_sword: Area2D = $Sword
 @onready var timer := $AttackCooldown
 
 
@@ -81,7 +81,7 @@ func run_attack_loop(id: int):
 			
 		
 
-func recieve_parry(direction: String, player: Node):
+func receive_parry(direction: String, player: Node):
 	
 	if state != State.ATTACKING or !enemy_sword.monitoring:
 		return
@@ -104,11 +104,13 @@ func successful_parry():
 	
 	if state != State.PARRIED:
 		return;
-		
+	
+	pattern_index += 1
+	
 	if pattern_index >= attack_pattern.size():
 		enter_stunned()
 	else:
-		state_attack_sequence()
+		start_attack_sequence()
 	
 func reset_after_hit(player: Node):
 	
@@ -128,6 +130,48 @@ func reset_after_hit(player: Node):
 	
 	pattern_index = 0
 	start_attack_sequence()
+	
+func enter_stunned():
+	sequence_id += 1
+	state = State.STUNNED
+	
+	enemy_sword.monitoring = false
+	animations.play("stunned")
+	print("Enemy stunned!")
+	
+	await get_tree().create_timer(stun_duration).timeout
+	
+	if state != State.STUNNED:
+		return
+	
+	pattern_index = 0
+	start_attack_sequence()
+	
+func _on_sword_body_entered(body: Node2D):
+	
+	if state != State.ATTACKING || swing_hit:
+		return
+	
+	if body.is_in_group("players"):
+		swing_hit = true
+		reset_after_hit(body)
+		
+
+func receive_player_attack(amount: int):
+	if state != State.STUNNED:
+		return
+	
+	take_damage(amount)
+	
+func take_damage(amount: int):
+	if state == State.DEAD:
+		return
+	
+	health -= amount
+	
+	if health <= 0:
+		die()
+
 func die():
 	queue_free()
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsr6rja3tmres"
-path="res://.godot/imported/arrow_right.png-4defe8645e9d16cfba91272dd27321f9.ctex"
+uid="uid://34fel5vms5gl"
+path="res://.godot/imported/Orc_Hurt.png-e39d8fe5f0cf6fcc379772c890408293.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/enemy/arrow_right.png"
-dest_files=["res://.godot/imported/arrow_right.png-4defe8645e9d16cfba91272dd27321f9.ctex"]
+source_file="res://sprites/enemy/temp/Orc_Hurt.png"
+dest_files=["res://.godot/imported/Orc_Hurt.png-e39d8fe5f0cf6fcc379772c890408293.ctex"]
 
 [params]
 
