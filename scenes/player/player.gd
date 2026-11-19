@@ -12,12 +12,13 @@ const JUMP_VELOCITY = -400.0
 @onready var player_sword := $Sword
 
 var current_state = player_states.MOVE
-enum player_states {MOVE, DEAD}
+enum player_states {MOVE, PREATTACK, ATTACKING, DEAD}
 var knockback_time := 0.0
 var attacking := false
 var attack_animation_id := 0
 var facing_direction := Vector2.RIGHT
 var sword_offset: Vector2
+
 
 func _ready():
 	sword_offset = player_sword.position
@@ -127,18 +128,17 @@ func apply_knockback(enemy_position: Vector2):
 
 func update_animations():
 	
-	if current_state == player_states.MOVE:
+	if current_state == player_states.MOVE or current_state == player_states.PREATTACK or current_state == player_states.ATTACKING:
 		if !is_on_floor():
 			if velocity.y < 0:
 				animations.play("jump")
 			else:
 				animations.play("fall")
 			
-		elif velocity.x == 0:
-			animations.play("idle")
+		elif current_state == player_states.PREATTACK:
+			animations.play("swordup")
 		else:
 			animations.play("walk")
-	
 	else:
 		return
 	

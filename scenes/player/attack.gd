@@ -2,7 +2,8 @@ extends Node2D
 
 var line_position: PackedVector2Array = [] 
 var currently_drawing: bool = false
-@onready var player := $".."
+@onready var player := $"../Player"
+@onready var line := $Line
 
 signal drawing_done(direction: String)
 
@@ -14,12 +15,14 @@ func _unhandled_input(event: InputEvent) -> void:
 				currently_drawing = true;
 				line_position.clear();
 				line_position.append(get_local_mouse_position())
+				player.current_state = player.player_states.MOVE
 				queue_redraw();
 			
 			else:
 				if currently_drawing:
 					line_position.append(get_local_mouse_position());
 					currently_drawing = false;
+					line.hide();
 					
 					var direction = attack_direction();
 					
@@ -38,8 +41,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		queue_redraw();
 
 func _draw() -> void:
-	if line_position.size() >= 2:
-		draw_polyline(line_position, Color.WHITE, 3.0, true);
+	if currently_drawing == false:
+		line.hide()
+	if currently_drawing == true:
+		line.show()
 
 func attack_direction() -> String:
 

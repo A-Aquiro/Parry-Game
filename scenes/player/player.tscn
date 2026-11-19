@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://yq2vac8h8xjj" path="res://sprites/player/temp/Soldier_Attack03.png" id="3_7obkq"]
 [ext_resource type="Texture2D" uid="uid://b1g8wkeeqw2bl" path="res://sprites/player/temp/Soldier_Attack02.png" id="3_wva7c"]
 [ext_resource type="Texture2D" uid="uid://b8cvuahuacj0k" path="res://sprites/player/temp/Soldier_Walk.png" id="4_wva7c"]
-[ext_resource type="Script" uid="uid://ddv1ratp3ospo" path="res://scenes/player/attack.gd" id="35_bbmj2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iwuka"]
 atlas = ExtResource("3_wva7c")
@@ -117,6 +116,10 @@ atlas = ExtResource("2_8qxvo")
 region = Rect2(500, 0, 100, 100)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_iwuka"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75vfm"]
+atlas = ExtResource("3_wva7c")
+region = Rect2(100, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vb1ce"]
 atlas = ExtResource("4_wva7c")
@@ -290,6 +293,14 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75vfm")
+}],
+"loop": true,
+"name": &"swordup",
+"speed": 5.0
+}, {
+"frames": [{
 "duration": 0.8,
 "texture": SubResource("AtlasTexture_vb1ce")
 }, {
@@ -336,15 +347,11 @@ texture_filter = 1
 position = Vector2(2, 4)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_g2els")
-animation = &"fall"
+animation = &"swordup"
 
 [node name="Collisions" type="CollisionShape2D" parent="."]
 position = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_dqkch")
-
-[node name="Attack" type="Node2D" parent="."]
-position = Vector2(-16, -9)
-script = ExtResource("35_bbmj2")
 
 [node name="Sword" type="Area2D" parent="."]
 position = Vector2(28, 1)
