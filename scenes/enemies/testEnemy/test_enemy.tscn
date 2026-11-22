@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://ik6ygup3up0g"]
+[gd_scene load_steps=31 format=3 uid="uid://ik6ygup3up0g"]
 
 [ext_resource type="Script" uid="uid://dlx0ealj4wyv2" path="res://scenes/enemies/enemy.gd" id="1_fgult"]
 [ext_resource type="Texture2D" uid="uid://btmrhrkspkncy" path="res://sprites/enemy/temp/Orc_Attack01.png" id="2_gby4n"]
 [ext_resource type="Texture2D" uid="uid://cj8d2qjreef6s" path="res://sprites/enemy/temp/Orc_Idle.png" id="2_h4ad6"]
 [ext_resource type="Texture2D" uid="uid://tkioyvfdbesb" path="res://sprites/enemy/temp/Orc_Attack02.png" id="4_pfxa0"]
+[ext_resource type="Texture2D" uid="uid://34fel5vms5gl" path="res://sprites/enemy/temp/Orc_Hurt.png" id="5_n02li"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gbdtk"]
 atlas = ExtResource("2_gby4n")
@@ -76,6 +77,22 @@ region = Rect2(400, 0, 100, 100)
 [sub_resource type="AtlasTexture" id="AtlasTexture_u7ilj"]
 atlas = ExtResource("4_pfxa0")
 region = Rect2(500, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tc6a0"]
+atlas = ExtResource("5_n02li")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jb2ey"]
+atlas = ExtResource("5_n02li")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2lofm"]
+atlas = ExtResource("5_n02li")
+region = Rect2(200, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_if5xk"]
+atlas = ExtResource("5_n02li")
+region = Rect2(300, 0, 100, 100)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wbk5p"]
 animations = [{
@@ -150,6 +167,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_tc6a0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jb2ey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2lofm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_if5xk")
+}],
+"loop": false,
+"name": &"parried",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_jd23a")
 }, {
 "duration": 1.0,
@@ -199,7 +233,7 @@ animations = [{
 size = Vector2(136, 144.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0slic"]
-size = Vector2(81, 140.5)
+size = Vector2(140.5, 140.5)
 
 [node name="testEnemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -211,7 +245,7 @@ texture_filter = 1
 position = Vector2(-19, 2.00003)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_wbk5p")
-animation = &"idle"
+animation = &"parried"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, -1.25)
@@ -226,6 +260,6 @@ collision_layer = 16
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
-position = Vector2(110, 0)
+position = Vector2(80.25, 0)
 shape = SubResource("RectangleShape2D_0slic")
 debug_color = Color(1, 0, 0.184314, 0.419608)

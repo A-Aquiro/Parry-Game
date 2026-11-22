@@ -11,7 +11,7 @@ const SPEED = 300.0
 var attack_pattern: Array[String] = ["up","down","left"]
 
 @export var swing_duration := 2
-@export var recovery_duration := 1
+@export var recovery_duration := 2
 @export var parry_feedback_duration := 0.4
 @export var reset_delay := 0.5
 @export var stun_duration := 3.0
@@ -102,6 +102,7 @@ func receive_parry(direction: String, player: Node):
 	
 	if direction == opposite_direction:
 		successful_parry()
+		animations.play("parried")
 	else:
 		reset_after_hit(player)
 		
@@ -135,9 +136,7 @@ func reset_after_hit(player: Node):
 	state = State.RESETTING
 	enemy_sword.monitoring = false
 	
-	player.take_damage(attack_damage)
-	player.apply_knockback(global_position)
-	await get_tree().create_timer(reset_delay).timeout
+	player.take_damage(global_position, attack_damage)
 
 	if state != State.RESETTING:
 		return

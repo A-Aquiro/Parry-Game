@@ -2,13 +2,15 @@ extends CharacterBody2D
 
 const SPEED = 200.0
 const JUMP_VELOCITY = -400.0
-@export var health_points := 100;
+@export var max_health_points := 20
 @export var attack_damage := 25
 
 @export var knockback := 100
 @export var knockback_lift := 50
 
-@onready var animations := $PlayerAnimations
+@onready var player_anim := $PlayerAnimations
+@onready var sword_anim := $Sword/SwordAnimations
+
 @onready var player_sword := $Sword
 
 var current_state = player_states.MOVE
@@ -18,13 +20,17 @@ var attacking := false
 var attack_animation_id := 0
 var facing_direction := Vector2.RIGHT
 var sword_offset: Vector2
-
+var spawn : Vector2
+var health_points := 20;
 
 func _ready():
 	sword_offset = player_sword.position
 	add_to_group("player")
 	player_sword.monitoring = true
+	spawn = global_position
+	sword_anim.hide()
 	
+
 func _physics_process(delta: float) -> void:
 	
 	if not is_on_floor():
@@ -38,10 +44,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		var direction := Input.get_axis("backward","forward")
 		
-		if attacking and direction != 0:
-			attacking = false
-			attack_animation_id += 1
-		
 		if direction:
 			velocity.x = direction * SPEED
 		else:
@@ -53,11 +55,12 @@ func _physics_process(delta: float) -> void:
 			else:
 				facing_direction = Vector2.LEFT
 				
-			animations.flip_h = direction < 0;
+			player_anim.flip_h = direction < 0
+			sword_anim.flip_h = direction < 0;
 			update_sword_position()
 	
 	if !attacking:
-		update_animations()
+		update_player_anim()
 	move_and_slide();
 	
 
@@ -69,7 +72,8 @@ func set_current_attack(direction: String) -> void:
 	var current_id = attack_animation_id
 	
 	attacking = true
-	animations.play("attack_" + direction)
+	sword_anim.show()
+	sword_anim.play(direction)
 
 	var directions := {
 		"up": Vector2.UP,
@@ -96,24 +100,13 @@ func set_current_attack(direction: String) -> void:
 	for body in player_sword.get_overlapping_bodies():
 		if body.is_in_group("enemies"):
 			body.receive_player_attack(attack_damage)
-	
-	await animations.animation_finished
-	
+		
 	if current_id == attack_animation_id:
 		attacking = false
 		update_sword_position()
-		update_animations()
-	
-func take_damage(amount: int):
-	if current_state == player_states.DEAD:
-		return
-	
-	health_points -= amount
-	
-	if health_points <= 0:
-		current_state = player_states.DEAD
+		update_player_anim()
 
-func apply_knockback(enemy_position: Vector2):
+func take_damage(enemy_position: Vector2, damage: int):
 	var direction = global_position - enemy_position
 	
 	if direction.length_squared() == 0:
@@ -125,22 +118,25 @@ func apply_knockback(enemy_position: Vector2):
 	velocity.y -= knockback_lift
 	
 	knockback_time = 0.2
+	health_points -= damage
+	print("-", damage)
+	if health_points <= 0:
+		current_state = player_states.DEAD
 
-func update_animations():
+func update_player_anim():
 	
 	if current_state == player_states.MOVE or current_state == player_states.PREATTACK or current_state == player_states.ATTACKING:
-		if !is_on_floor():
-			if velocity.y < 0:
-				animations.play("jump")
-			else:
-				animations.play("fall")
-			
-		elif current_state == player_states.PREATTACK:
-			animations.play("swordup")
+		if current_state == player_states.PREATTACK:
+			player_anim.play("swordup")
+		elif velocity.x == 0:
+			player_anim.play("idle")
 		else:
-			animations.play("walk")
+			player_anim.play("walk")
 	else:
-		return
+		# respawn at start of level
+		global_position = spawn
+		current_state = player_states.MOVE
+		health_points = max_health_points
 	
 func update_sword_position():
 	if facing_direction == Vector2.RIGHT:

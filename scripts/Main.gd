@@ -29,12 +29,6 @@ func change_room(room: PackedScene, spawn_path: NodePath, animate_camera:=true):
 	
 	var spawn = new_room.get_node_or_null(spawn_path);
 	
-	if(spawn == null):
-		print("no spawn in " + str(spawn_path))
-		new_room.queue_free()
-		is_changing_room = false
-		return
-	
 	player.global_position = spawn.global_position
 	
 	var old_room = current_room
