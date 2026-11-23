@@ -230,10 +230,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fgult"]
-size = Vector2(136, 144.5)
+size = Vector2(136, 84)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0slic"]
-size = Vector2(140.5, 140.5)
+size = Vector2(140.5, 85)
 
 [node name="testEnemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -248,7 +248,7 @@ sprite_frames = SubResource("SpriteFrames_wbk5p")
 animation = &"parried"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, -1.25)
+position = Vector2(-2, -5)
 shape = SubResource("RectangleShape2D_fgult")
 
 [node name="AttackCooldown" type="Timer" parent="."]
@@ -260,6 +260,6 @@ collision_layer = 16
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
-position = Vector2(80.25, 0)
+position = Vector2(80.25, -4.5)
 shape = SubResource("RectangleShape2D_0slic")
 debug_color = Color(1, 0, 0.184314, 0.419608)
