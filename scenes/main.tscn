@@ -14,7 +14,15 @@ point_count = 2
 script = ExtResource("1_jyhfs")
 starting_room = ExtResource("2_0wfyh")
 
-[node name="RoomContainer" type="Node2D" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = -56.0
+offset_top = -83.0
+offset_right = 1171.0
+offset_bottom = 717.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Attack" type="Node2D" parent="."]
 position = Vector2(-16, -9)
@@ -39,3 +47,5 @@ limit_top = -256
 limit_right = 600
 limit_bottom = 300
 editor_draw_limits = true
+
+[node name="RoomContainer" type="Node2D" parent="."]

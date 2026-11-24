@@ -150,7 +150,6 @@ func enter_stunned():
 	
 	enemy_sword.monitoring = false
 	animations.play("stunned")
-	print("Enemy stunned!")
 	
 	await get_tree().create_timer(stun_duration).timeout
 	

@@ -51,6 +51,9 @@ func _physics_process(delta: float) -> void:
 	if knockback_time > 0:
 		knockback_time -= delta
 	else:
+		if current_state == player_states.ATTACKING:
+			return
+			 
 		var direction := Input.get_axis("backward","forward")
 		
 		if direction:

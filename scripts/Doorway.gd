@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var destination_room: PackedScene
-@export var destination_spawn_path: NodePath
+@export var spawn_path: NodePath = ^"PlayerSpawn"
 
 var activated := false
 
@@ -11,10 +11,14 @@ func _ready() -> void:
 	
 
 func _on_body_entered(body):
-	var room_manager = get_tree().get_first_node_in_group("room_manager")
-	room_manager.call("change_room", destination_room, destination_spawn_path, true);
+	print("go to next room")
+	
+	if body.is_in_group("player"):
+		var main = get_tree().get_first_node_in_group("rooms")
+		main.call("change_room", destination_room, spawn_path, true);
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	pass
