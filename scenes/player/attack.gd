@@ -13,7 +13,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				currently_drawing = true;
-				player.current_state = player.player_states.PREATTACK
+				player.current_state = player.player_states.ATTACKING
 				line_position.clear();
 				line_position.append(get_local_mouse_position())
 				queue_redraw();

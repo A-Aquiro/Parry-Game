@@ -1,5 +1,6 @@
-[gd_scene load_steps=34 format=3 uid="uid://bdiypmt5k4jku"]
+[gd_scene load_steps=35 format=3 uid="uid://bdiypmt5k4jku"]
 
+[ext_resource type="Texture2D" uid="uid://dm77nhojyay58" path="res://sprites/player/playerdied.png" id="2_5gtgg"]
 [ext_resource type="Script" uid="uid://dec00e8c2g4a7" path="res://scenes/player/player.gd" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://cmgtbdmgrc40p" path="res://sprites/player/16x32 Idle.png" id="2_qek5x"]
 [ext_resource type="Texture2D" uid="uid://w5wqew8rt52e" path="res://sprites/player/16x32 Walk.png" id="4_qek5x"]
@@ -46,6 +47,14 @@ region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g2els"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_5gtgg")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yj68g")
@@ -217,7 +226,7 @@ texture_filter = 1
 position = Vector2(-1.5, -2.5)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_g2els")
-animation = &"walk"
+animation = &"death"
 
 [node name="Collisions" type="CollisionShape2D" parent="."]
 position = Vector2(-3.375, -0.291664)

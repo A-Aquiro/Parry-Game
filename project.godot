@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="parrying game"
-run/main_scene="uid://wyuycwwuww0m"
+run/main_scene="uid://bp0k3jqsk6y7b"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

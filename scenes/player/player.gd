@@ -14,7 +14,7 @@ const JUMP_VELOCITY = -400.0
 @onready var player_sword := $Sword
 
 var current_state = player_states.MOVE
-enum player_states {MOVE, PREATTACK, ATTACKING, DEAD}
+enum player_states {MOVE, PREATTACK, ATTACKING, TRANSITION, DEAD}
 var knockback_time := 0.0
 var attack_animation_id := 0
 var facing_direction := Vector2.RIGHT
@@ -31,6 +31,9 @@ func _ready():
 	sword_anim.hide()
 
 func _physics_process(delta: float) -> void:
+	if current_state == player_states.TRANSITION:
+			return
+		
 	if current_state == player_states.DEAD:
 		velocity = Vector2.ZERO
 		global_position = spawn
@@ -51,8 +54,6 @@ func _physics_process(delta: float) -> void:
 	if knockback_time > 0:
 		knockback_time -= delta
 	else:
-		if current_state == player_states.ATTACKING:
-			return
 			 
 		var direction := Input.get_axis("backward","forward")
 		
@@ -148,9 +149,10 @@ func update_player_anim():
 	if current_state != player_states.DEAD:
 		if current_state == player_states.PREATTACK:
 			player_anim.play("swordup")
-			current_state = player_states.ATTACKING
 		elif velocity.x == 0:
 			player_anim.play("idle")
+		elif current_state == player_states.TRANSITION:
+			player_anim.play("death")
 		else:
 			player_anim.play("walk")
 	

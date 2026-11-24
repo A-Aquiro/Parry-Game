@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dj2olo5bq02ui"
-path="res://.godot/imported/paralax4.png-d9f9017343d460f60844092309fdd0de.ctex"
+uid="uid://dm77nhojyay58"
+path="res://.godot/imported/playerdied.png-f4e243fbff728f408a9d18b3ff1b5986.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/parallax/paralax4.png"
-dest_files=["res://.godot/imported/paralax4.png-d9f9017343d460f60844092309fdd0de.ctex"]
+source_file="res://sprites/player/playerdied.png"
+dest_files=["res://.godot/imported/playerdied.png-f4e243fbff728f408a9d18b3ff1b5986.ctex"]
 
 [params]
 
