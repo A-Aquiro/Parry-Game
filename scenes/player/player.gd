@@ -68,8 +68,8 @@ func _physics_process(delta: float) -> void:
 			else:
 				facing_direction = Vector2.LEFT
 				
-			player_anim.flip_h = direction < 0
 			sword_anim.flip_h = direction < 0;
+			player_anim.flip_h = direction < 0
 			update_sword_position()
 	
 	if current_state != player_states.ATTACKING:
@@ -97,7 +97,17 @@ func set_current_attack(direction: String) -> void:
 	
 	current_state = player_states.ATTACKING
 	sword_anim.show()
-	sword_anim.play(direction)
+	
+	var sword_direction = direction
+	
+	if facing_direction == Vector2.LEFT:
+		if direction == "left":
+			sword_direction = "right"
+		elif direction == "right":
+			sword_direction = "left"
+	
+	sword_anim.play(sword_direction)
+	Sounds.play_SFX("slash", 1)
 	
 	update_sword_position()
 	

@@ -16,7 +16,8 @@ var attack_pattern: Array[String] = ["up","down","left"]
 @export var reset_delay := 0.5
 @export var stun_duration := 3.0
 
-@onready var animations := $EnemyAnimations
+@onready var sprite_animation := $EnemyAnimations
+@onready var collision_animation := $Sword/AnimationPlayer
 @onready var enemy_sword: Area2D = $Sword
 @onready var timer := $AttackCooldown
 @onready var player = get_tree().get_first_node_in_group("player")
@@ -52,8 +53,8 @@ func _physics_process(delta: float) -> void:
 	if player != null: 
 		var should_flip = player.global_position.x < global_position.x;
 		
-		if animations.flip_h != should_flip:
-			animations.flip_h = should_flip
+		if sprite_animation.flip_h != should_flip:
+			sprite_animation.flip_h = should_flip
 			update_sword_position()
 	move_and_slide();
 	
@@ -78,7 +79,8 @@ func run_attack_loop(id: int):
 		swing_hit_player = false
 		
 		enemy_sword.monitoring = true
-		animations.play(current_attack)
+		sprite_animation.play(current_attack)
+		collision_animation.play("attack")
 		
 		await get_tree().create_timer(swing_duration).timeout
 		
@@ -86,7 +88,7 @@ func run_attack_loop(id: int):
 			return
 		
 		enemy_sword.monitoring = false
-		animations.play("idle")
+		sprite_animation.play("idle")
 		
 		await get_tree().create_timer(recovery_duration).timeout
 		
@@ -102,7 +104,7 @@ func receive_parry(direction: String, player: Node):
 	
 	if direction == opposite_direction:
 		successful_parry()
-		animations.play("parried")
+		sprite_animation.play("parried")
 	else:
 		reset_after_hit(player)
 		
@@ -112,7 +114,7 @@ func successful_parry():
 	enemy_sword.monitoring = false
 	
 	state = State.PARRIED
-	animations.play("parried")
+	sprite_animation.play("parried")
 	print("parry successful!!")
 	
 	await get_tree().create_timer(parry_feedback_duration).timeout
@@ -149,7 +151,7 @@ func enter_stunned():
 	state = State.STUNNED
 	
 	enemy_sword.monitoring = false
-	animations.play("stunned")
+	sprite_animation.play("stunned")
 	
 	await get_tree().create_timer(stun_duration).timeout
 	
@@ -197,7 +199,7 @@ func get_opposite_direction(direction: String) -> String:
 
 func update_sword_position():
 	
-	if animations.flip_h:
+	if sprite_animation.flip_h:
 		enemy_sword.scale.x = -abs(sword_scale.x)
 	else:
 		enemy_sword.scale.x = abs(sword_scale.x)	
