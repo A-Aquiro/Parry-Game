@@ -359,6 +359,7 @@ position = Vector2(492, 385)
 scale = Vector2(0.2, 0.2)
 
 [node name="testEnemy2" parent="." instance=ExtResource("4_sk5k4")]
+visible = false
 position = Vector2(897, 284)
 scale = Vector2(0.2, 0.2)
 
@@ -381,7 +382,7 @@ scale = Vector2(0.135624, 0.135624)
 texture = ExtResource("5_6761a")
 
 [node name="PointLight2D6" type="PointLight2D" parent="Node2D"]
-position = Vector2(905, 256)
+position = Vector2(902, 258)
 scale = Vector2(0.116093, 0.116093)
 texture = ExtResource("5_6761a")
 
