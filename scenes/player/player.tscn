@@ -1,6 +1,6 @@
-[gd_scene load_steps=35 format=3 uid="uid://bdiypmt5k4jku"]
+[gd_scene load_steps=38 format=3 uid="uid://bdiypmt5k4jku"]
 
-[ext_resource type="Texture2D" uid="uid://dm77nhojyay58" path="res://sprites/player/playerdied.png" id="2_5gtgg"]
+[ext_resource type="Texture2D" uid="uid://dm77nhojyay58" path="res://scenes/player/playerdied.png" id="2_5gtgg"]
 [ext_resource type="Script" uid="uid://dec00e8c2g4a7" path="res://scenes/player/player.gd" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://cmgtbdmgrc40p" path="res://sprites/player/16x32 Idle.png" id="2_qek5x"]
 [ext_resource type="Texture2D" uid="uid://w5wqew8rt52e" path="res://sprites/player/16x32 Walk.png" id="4_qek5x"]
@@ -98,8 +98,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
-size = Vector2(22.75, 27.25)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qek5x"]
+size = Vector2(25, 12.2222)
 
 [sub_resource type="Animation" id="Animation_5gtgg"]
 resource_name = "sword"
@@ -109,9 +109,6 @@ length = 5.0
 _data = {
 &"sword": SubResource("Animation_5gtgg")
 }
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bbmj2"]
-size = Vector2(32.4183, 27.7778)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0owmy"]
 atlas = ExtResource("6_75vfm")
@@ -214,6 +211,69 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bbmj2"]
+size = Vector2(32.2222, 19.7538)
+
+[sub_resource type="Animation" id="Animation_h17s1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-8.33333, 2.35127)]
+}
+
+[sub_resource type="Animation" id="Animation_qek5x"]
+resource_name = "right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-8.33333, 2.35127)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5gtgg"]
+_data = {
+&"RESET": SubResource("Animation_h17s1"),
+&"right": SubResource("Animation_qek5x")
+}
+
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(124, 66)
 scale = Vector2(1.2, 1.2)
@@ -226,12 +286,13 @@ texture_filter = 1
 position = Vector2(-1.5, -2.5)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_g2els")
-animation = &"death"
+animation = &"swordup"
 
 [node name="Collisions" type="CollisionShape2D" parent="."]
-position = Vector2(-3.375, -0.291664)
+position = Vector2(-1.66664, 1.25)
+rotation = 1.5708
 scale = Vector2(1.5, 1.5)
-shape = SubResource("RectangleShape2D_dqkch")
+shape = SubResource("RectangleShape2D_qek5x")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -243,12 +304,6 @@ position = Vector2(17.5, 0.333366)
 collision_layer = 0
 collision_mask = 20
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
-position = Vector2(-8.18627, -0.428123)
-scale = Vector2(1.5, 1.5)
-shape = SubResource("RectangleShape2D_bbmj2")
-debug_color = Color(0.638972, 0, 0.157639, 0.42)
-
 [node name="SwordAnimations" type="AnimatedSprite2D" parent="Sword"]
 texture_filter = 1
 position = Vector2(-8.42809, 0.405212)
@@ -256,3 +311,14 @@ rotation = -0.00300077
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_gx1jg")
 animation = &"down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
+position = Vector2(-8.33333, 2.35127)
+scale = Vector2(1.5, 1.5)
+shape = SubResource("RectangleShape2D_bbmj2")
+debug_color = Color(0.638972, 0, 0.157639, 0.42)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sword"]
+libraries = {
+&"": SubResource("AnimationLibrary_5gtgg")
+}

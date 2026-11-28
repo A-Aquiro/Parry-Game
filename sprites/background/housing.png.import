@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6pnejod6bder"
-path="res://.godot/imported/layer2.png-caaefda22af40b18faddef6f32026b14.ctex"
+uid="uid://bhpu0qk4g5v8k"
+path="res://.godot/imported/housing.png-85674e26c14733fe83126381f071c34e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/parallax/layer2.png"
-dest_files=["res://.godot/imported/layer2.png-caaefda22af40b18faddef6f32026b14.ctex"]
+source_file="res://sprites/background/housing.png"
+dest_files=["res://.godot/imported/housing.png-85674e26c14733fe83126381f071c34e.ctex"]
 
 [params]
 

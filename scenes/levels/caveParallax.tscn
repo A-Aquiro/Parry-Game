@@ -1,10 +1,11 @@
 [gd_scene load_steps=6 format=3 uid="uid://cnav6qfhs5qju"]
 
 [ext_resource type="Texture2D" uid="uid://bxl4xjymkpofa" path="res://sprites/parallax/layer1.png" id="1_uh3j3"]
-[ext_resource type="Texture2D" uid="uid://6pnejod6bder" path="res://sprites/parallax/layer2.png" id="2_ba2ga"]
 [ext_resource type="Texture2D" uid="uid://owakii7ycgqr" path="res://sprites/parallax/layer3.png" id="3_yv4mn"]
 [ext_resource type="Texture2D" uid="uid://benb0ayxaq5bp" path="res://sprites/parallax/layer4.png" id="4_cep0m"]
 [ext_resource type="Texture2D" uid="uid://cmxaiqjryei26" path="res://sprites/parallax/layer5.png" id="5_yymqv"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qykod"]
 
 [node name="ParallaxLayer" type="ParallaxBackground"]
 layer = -1
@@ -32,7 +33,7 @@ motion_scale = Vector2(0.1, 0.1)
 texture_filter = 1
 position = Vector2(-493.076, -123.692)
 scale = Vector2(1, 1.28726)
-texture = ExtResource("2_ba2ga")
+texture = SubResource("CompressedTexture2D_qykod")
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="."]
 texture_filter = 1

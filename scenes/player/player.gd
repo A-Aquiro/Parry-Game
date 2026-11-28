@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 175.0
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -350.0
 @export var max_health_points := 20
 @export var attack_damage := 25
 
@@ -22,6 +22,7 @@ var sword_offset: Vector2
 var spawn : Vector2
 var health_points := 20;
 var can_parry_jump := true
+var next_wall_jump_direction = Vector2.ZERO
 
 func _ready():
 	sword_offset = player_sword.position
@@ -42,14 +43,15 @@ func _physics_process(delta: float) -> void:
 		current_state = player_states.MOVE
 		return
 	
+	if is_on_floor():
+		next_wall_jump_direction = Vector2.ZERO
+	
 	if not is_on_floor():
 		velocity += get_gravity() * delta;
+		
 
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY;
-	
-	if is_on_floor():
-		can_parry_jump = true 
 		
 	if knockback_time > 0:
 		knockback_time -= delta
@@ -157,9 +159,7 @@ func take_damage(enemy_position: Vector2, damage: int):
 func update_player_anim():
 	
 	if current_state != player_states.DEAD:
-		if current_state == player_states.PREATTACK:
-			player_anim.play("swordup")
-		elif velocity.x == 0:
+		if velocity.x == 0:
 			player_anim.play("idle")
 		elif current_state == player_states.TRANSITION:
 			player_anim.play("death")
@@ -175,11 +175,17 @@ func update_sword_position():
 func parry_jump():
 	if can_parry_jump == false:
 		return
-	
+
+	if next_wall_jump_direction != Vector2.ZERO:
+		if facing_direction != next_wall_jump_direction:
+			return
+
 	if is_on_wall() and current_state == player_states.ATTACKING:
-		var wall_normal = get_wall_normal()
-		
-		velocity.x  = get_wall_normal().x * SPEED
-		velocity.y = JUMP_VELOCITY
-		
+		velocity.x = get_wall_normal().x * SPEED
+		velocity.y = -400
+
 		can_parry_jump = false
+		await get_tree().create_timer(0.1).timeout
+		can_parry_jump = true
+
+		next_wall_jump_direction = facing_direction * -1
